@@ -1,5 +1,4 @@
 import math
-from re import A
 
 class activation_functions_prime:
 
@@ -27,4 +26,5 @@ class activation_functions_prime:
             result = 1
         else:
             result = a
+        return result
     

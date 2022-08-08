@@ -24,6 +24,7 @@ class activation_functions:
             result = z
         else:
             result = a * z
+        return result
 
 
     
