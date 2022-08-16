@@ -39,7 +39,7 @@ class activation_layer(layer):
 
         return self._bias
 
-    #returns the dw matrix
+    #returns the dw tensor
     def get_dw(self):
 
         return tensor.compute_dot_product(self._dz, tensor.transpose(self._input_tensor))
@@ -61,7 +61,7 @@ class activation_layer(layer):
         self._weights = tensor.tensor_subtraction(self._weights, tensor.tensor_scalar_multiplication(learning_rate, self.get_dw()))
     
     #Takes the dot product of the transposed weights tensor with the next layer's dz.
-    #Multiplies that tensor by a tensor of the output matrix, after running the output matrix through the derivative of the activation function
+    #Multiplies that tensor by a tensor of the output tensor, after running the output tensor through the derivative of the activation function
     def calculate_dz(self):
 
         next_dz = self.next_layer.get_dz()
@@ -81,7 +81,7 @@ class activation_layer(layer):
 
         self._input_tensor = t1
 
-    def get_outtput_matrix(self):
+    def get_outtput_tensor(self):
 
         return self._output_tensor
 

@@ -128,6 +128,28 @@ class tensor:
         new_tensor = tensor(r,c)
         for i in t1:
             new_tensor.t[i] = t1.t[math.sqrt(i)]
+        return new_tensor
+
+    #prints out a tensor in console
+    def print_tensor(t1):
+
+        i = 0
+        j = 0
+        while ( i < t1.get_rows):
+
+            print(t1.t[i], end=" ")
+            while (j < t1.get_columns):
+                print(t1.t[i * t1.get_columns + j], end=" ")
+                j += 1
+            print('')
+            i += 1
+
+    
+
+
+
+
+
     
 
         
