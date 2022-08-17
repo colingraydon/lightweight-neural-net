@@ -1,6 +1,6 @@
 import layer
 import tensor
-import numpy as np
+import math
 
 
 class activation_layer(layer):
@@ -10,6 +10,14 @@ class activation_layer(layer):
     _input_tensor:tensor
     _output_tensor: tensor
     _dz: tensor
+    _vdw: tensor
+    _sdw: tensor
+    #these values are standard for adam optimization. 
+    #beta1 is for first moment estimates, beta2 for second moment estimates
+    #epsilon just prevents any divide by 0 errors.
+    beta1 = .9
+    beta2 = .999
+    epsilon = math.exp(10, -8)
 
 
 
@@ -18,14 +26,14 @@ class activation_layer(layer):
         self.rows = rows
         self.columns = columns
         self.activation_function = activation_function
-        self.activation_function_prine = activation_function_prime
+        self.activation_function_prime = activation_function_prime
         self._weights = self.set_weights()
         self._bias = self.set_bias()
 
     #3 is chosen here because that is the number of neurons
     def set_weights(self):
 
-        _weights = tensor.randomize_new_tensor(_weights, -3, 3)
+        self._weights = tensor.randomize_new_tensor(self._weights, -3, 3)
 
     def get_weights(self):
 
@@ -33,7 +41,7 @@ class activation_layer(layer):
 
     def set_bias(self):
 
-        _bias = tensor.randomize_new_tensor(_bias, -3, 3)
+        self._bias = tensor.randomize_new_tensor(self._bias, -3, 3)
 
     def get_bias(self):
 
@@ -44,6 +52,19 @@ class activation_layer(layer):
 
         return tensor.compute_dot_product(self._dz, tensor.transpose(self._input_tensor))
 
+
+    #backward propagation for an adam optimizer
+    #There's a whole bunch of math here but essentially the weights are being adjusted via beta1, beta2, epsilon, and various linear algebra formulas
+    def propagate_backward_adam(self, learning_rate, epoch_number):
+
+        dt = self.dw()
+        self._vdw = tensor.tensor_addition(tensor.tensor_scalar_multiplication(self._vdw, self.beta1), tensor.tensor_scalar_multiplication(dt, (1 - self.beta1)))
+        self._sdw = tensor.tensor_addition(tensor.tensor_scalar_multiplication(self._sdw, self.beta2), tensor.tensor_scalar_multiplication(tensor.tensor_multiplication(dt, dt), (1-self.beta2)))
+        new_vdw = tensor.tensor_scalar_multiplication(self._vdw, (1 / (1-math.exp(self.beta1, epoch_number))))
+        new_sdw = tensor.tensor_scalar_multiplication(self._sdw, (1 / (1-math.exp(self.beta2, epoch_number))))
+        temp_tensor = tensor(new_sdw.get_rows(), new_sdw.get_columns())
+        new_tensor = tensor.tensor_division(new_vdw, tensor.tensor_subtraction(tensor.tensor_square_root(new_sdw), tensor.tensor_scalar_multiplication(temp_tensor, self.epsilon)))
+        self._weights = tensor.tensor_subtraction(self._weights, tensor.tensor_scalar_multiplication(new_tensor, learning_rate))
 
     #Takes the dot product of the weights and the input tensor, runs it through the activation function
     #Sets the next layer with this tensor
@@ -59,6 +80,13 @@ class activation_layer(layer):
         self.calculate_dz()
         #updating the weights with the learning rate
         self._weights = tensor.tensor_subtraction(self._weights, tensor.tensor_scalar_multiplication(learning_rate, self.get_dw()))
+
+    def propagate_backward(self, learning_rate):
+
+        self.calculate_dz()
+        #updating the weights with the learning rate
+        self._weights = tensor.tensor_subtraction(self._weights, tensor.tensor_scalar_multiplication(learning_rate, self.get_dw()))
+
     
     #Takes the dot product of the transposed weights tensor with the next layer's dz.
     #Multiplies that tensor by a tensor of the output tensor, after running the output tensor through the derivative of the activation function
@@ -84,8 +112,6 @@ class activation_layer(layer):
     def get_outtput_tensor(self):
 
         return self._output_tensor
-
-    
 
     def get_dz(self):
 

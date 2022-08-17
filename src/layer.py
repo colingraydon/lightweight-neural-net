@@ -11,11 +11,11 @@ class layer:
         self.activation_function = activation_function
 
     
-    def set_next_layer(l1):
-        next_layer = l1
+    def set_next_layer(self,l1):
+        self.next_layer = l1
 
-    def set_previous_layer(l1):
-        previous_layer = l1
+    def set_previous_layer(self,l1):
+        self.previous_layer = l1
 
     def get_next_layer(l1):
         return l1.next_layer

@@ -130,6 +130,16 @@ class tensor:
             new_tensor.t[i] = t1.t[math.sqrt(i)]
         return new_tensor
 
+    #sets every element of the tensor to the same value, value
+    def set_tensor_value(t1, value):
+
+        r = t1.get_rows()
+        c = t1.get_columns()
+        new_tensor = tensor(r,c)
+        for i in t1:
+            new_tensor.t[i] = value
+        return new_tensor
+
     #prints out a tensor in console
     def print_tensor(t1):
 
