@@ -4,13 +4,17 @@ import math
 
 class tensor:
 
-    rows = None
-    columns = None
+
     t = []
 
-    def __init__(self, rows, columns):
+    def __init__(self, rows, columns, input=None):
         self.rows = rows
         self.columns = columns
+        if (input is not None):
+            i = 0
+            for element in input:
+                self.t[i] = element
+
 
     def get_rows(self):
 

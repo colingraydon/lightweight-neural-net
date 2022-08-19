@@ -3,6 +3,7 @@ import tensor
 import math
 
 
+
 class activation_layer(layer):
 
     _weights: tensor
@@ -12,6 +13,7 @@ class activation_layer(layer):
     _dz: tensor
     _vdw: tensor
     _sdw: tensor
+
     #these values are standard for adam optimization. 
     #beta1 is for first moment estimates, beta2 for second moment estimates
     #epsilon just prevents any divide by 0 errors.
@@ -35,6 +37,10 @@ class activation_layer(layer):
 
         self._weights = tensor.randomize_new_tensor(self._weights, -3, 3)
 
+    def update_weights(self, learning_rate):
+
+        self._weights = tensor.tensor_subtraction(self._weights, tensor.tensor_scalar_multiplication(learning_rate, self.get_dw()))
+
     def get_weights(self):
 
         return self._weights
@@ -57,7 +63,7 @@ class activation_layer(layer):
     #There's a whole bunch of math here but essentially the weights are being adjusted via beta1, beta2, epsilon, and various linear algebra formulas
     def propagate_backward_adam(self, learning_rate, epoch_number):
 
-        dt = self.dw()
+        dt = self.get_dw()
         self._vdw = tensor.tensor_addition(tensor.tensor_scalar_multiplication(self._vdw, self.beta1), tensor.tensor_scalar_multiplication(dt, (1 - self.beta1)))
         self._sdw = tensor.tensor_addition(tensor.tensor_scalar_multiplication(self._sdw, self.beta2), tensor.tensor_scalar_multiplication(tensor.tensor_multiplication(dt, dt), (1-self.beta2)))
         new_vdw = tensor.tensor_scalar_multiplication(self._vdw, (1 / (1-math.exp(self.beta1, epoch_number))))
@@ -101,10 +107,12 @@ class activation_layer(layer):
         self._dz = tensor.tensor_multiplication(dot_product_next_dz_and_weights_transposed, temp_tensor)
 
 
+    #sets input for next layer
     def feed_input(self,t1):
 
         self.next_layer.initialize_input(t1)
 
+    #sets input tensor for that layer
     def initialize_input(self, t1):
 
         self._input_tensor = t1
