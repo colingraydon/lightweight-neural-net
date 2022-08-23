@@ -1,6 +1,5 @@
 #this class will create the basic network of layers
 
-from email import header
 import layer
 import tensor
 class network:
@@ -23,7 +22,7 @@ class network:
             l.set_previous_layer(tail)
             tail = l
     
-    def run_real(training, input, test_tensor, optimize, epoch_number):
+    def run_real(input, test_tensor, optimize, epoch_number):
 
         epoch_number = 1
         network.head.initialize_input(input)
@@ -73,7 +72,4 @@ class network:
 
 
     
-
-            
-            
 
