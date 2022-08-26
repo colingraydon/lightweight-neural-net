@@ -1,11 +1,11 @@
 #this class will create the basic network of layers
 
-import layer
-import tensor
+from layer import layer
+from tensor import tensor
 class network:
 
 
-    def __init__(self, head=None, tail=None):
+    def __init__(self, head:layer=None, tail:layer=None):
 
         self.head = head
         self.tail = tail
@@ -17,8 +17,8 @@ class network:
             self.tail = self.head
         else:
             self.tail.set_next_layer(l)
-            l.set_previous_layer(tail)
-            tail = l
+            l.set_previous_layer(self.tail)
+            self.tail = l
     
     def run_real(input, test_tensor, optimize, epoch_number):
 

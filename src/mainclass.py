@@ -1,13 +1,12 @@
-import parser
-import activation_layer
-import activation_functions
-import output_layer
-import adam_optimizer
-import gradient_descent
-import layer
-import network
-import optimizer
-import tensor
+from file_parser import file_parser
+from activation_layer import activation_layer
+from activation_functions import activation_functions
+from output_layer import output_layer
+from adam_optimizer import adam_optimizer
+from gradient_descent import gradient_descent
+from layer import layer
+from network import network
+from tensor import tensor
 import math
 
 
@@ -17,7 +16,7 @@ class mainclass:
 
         neural_network = network()
         file_path = "Users/colingraydon/Downloads/mnist_test.csv"
-        p = parser()
+        p = file_parser()
 
         #mnist_test.csv has 785 columns, numbers were not chosen arbitrarily
         first_column = 1
