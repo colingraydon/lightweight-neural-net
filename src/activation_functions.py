@@ -26,5 +26,7 @@ class activation_functions:
             result = a * z
         return result
 
+    
+
 
     

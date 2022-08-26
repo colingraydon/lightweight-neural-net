@@ -4,21 +4,19 @@ import layer
 import tensor
 class network:
 
-    head = layer()
-    tail = layer()
 
-    def __init__(self, next_layer, prev_layer):
+    def __init__(self, head=None, tail=None):
 
-        self.next_layer = next_layer
-        self.prev_layer = prev_layer
+        self.head = head
+        self.tail = tail
 
     def add_layer(self, l):
 
-        if (head == None):
-            head = l
-            tail = head
+        if (self.head == None):
+            self.head = l
+            self.tail = self.head
         else:
-            tail.set_next_layer(l)
+            self.tail.set_next_layer(l)
             l.set_previous_layer(tail)
             tail = l
     
@@ -29,7 +27,7 @@ class network:
         current = network.head
         while (current is not network.tail):
             current.propagate_forwards()
-            current = current.next()
+            current = current.next_layer
         current.propagate_forwards()
         while (current is not None):
             optimize.propagate_backwards(current, test_tensor, epoch_number)

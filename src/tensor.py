@@ -180,7 +180,7 @@ class tensor:
         new_tensor = tensor(r,c, temp_list)
         return new_tensor
 
-    #prints out a tensor in console
+    #prints out a tensor
     def print_tensor(t1):
 
         i = 0
@@ -195,7 +195,7 @@ class tensor:
             i += 1
 
 
-    #prints out an unformatted tensor in console
+    #prints out an unformatted tensor
     def print_tensor_unformatted(t1):
 
         print(t1.t)

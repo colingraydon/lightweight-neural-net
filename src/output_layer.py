@@ -5,9 +5,9 @@ import layer
 
 class output_layer(activation_layer):
 
-    def __init__(self, rows, columns, activation_function, activation_function_prime):
-        super().__init__(rows)
-        super().__init__(columns)
+    def __init__(self, input_dimensions, output_dimensions, activation_function, activation_function_prime):
+        super().__init__(input_dimensions)
+        super().__init__(output_dimensions)
         super().__init__(activation_function)
         super().__init__(activation_function_prime)
         self.set_weights()

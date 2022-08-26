@@ -1,6 +1,7 @@
 import layer
 import tensor
 import math
+from layer import layer
 
 
 
@@ -19,18 +20,18 @@ class activation_layer(layer):
     #epsilon just prevents any divide by 0 errors.
     beta1 = .9
     beta2 = .999
-    epsilon = math.exp(10, -8)
+    epsilon = 10 ** -8
 
 
 
-    def __init__(self, rows, columns, activation_function, activation_function_prime):
+    def __init__(self, input_dimensions, output_dimensions, activation_function, activation_function_prime, weights, bias, input_tensor, output_tensor, dz, vdw, sdw):
 
-        self.rows = rows
-        self.columns = columns
+        self.input_dimensions = input_dimensions
+        self.output_dimensions = output_dimensions
         self.activation_function = activation_function
         self.activation_function_prime = activation_function_prime
-        self._weights = self.set_weights()
-        self._bias = self.set_bias()
+        self.weights = self.set_weights()
+        self.bias = self.set_bias()
 
     #3 is chosen here because that is the number of neurons
     def set_weights(self):
