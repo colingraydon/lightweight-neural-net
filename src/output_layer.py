@@ -7,8 +7,14 @@ import layer
 class output_layer(activation_layer):
 
     def __init__(self, input_dimensions, output_dimensions, activation_function, activation_function_prime, weights=None, bias=None, input_tensor=None, output_tensor=None, dz=None):
-        super().__init__
+        # super().__init__
+        self.input_dimensions = input_dimensions
+        self.output_dimensions = output_dimensions
+        self.activation_function = activation_function
+        self.activation_function_prime = activation_function_prime
         self.input_tensor = input_tensor
+        self.weights = tensor(output_dimensions, input_dimensions)
+        self.bias = tensor(output_dimensions, columns=1)
         self.set_weights()
         self.set_bias()
 

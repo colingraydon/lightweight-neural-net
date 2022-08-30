@@ -21,13 +21,15 @@ class activation_layer(layer):
 
         super().__init__(input_dimensions, output_dimensions, activation_function, activation_function_prime)
         self.input_tensor = input_tensor
+        self.weights = tensor(output_dimensions, input_dimensions)
+        self.bias = tensor(output_dimensions, columns=1)
         self.weights = self.set_weights()
         self.bias = self.set_bias()
 
     #3 is chosen here because that is the number of neurons
     def set_weights(self):
 
-        self.weights = tensor.randomize_new_tensor(self.input_tensor, -3, 3)
+        self.weights = tensor.randomize_new_tensor(self.weights, -3, 3)
 
     def update_weights(self, learning_rate):
 
@@ -39,7 +41,7 @@ class activation_layer(layer):
 
     def set_bias(self):
 
-        self.bias = tensor.randomize_new_tensor(self.input_tensor, -3, 3)
+        self.bias = tensor.randomize_new_tensor(self.bias, -3, 3)
 
     def get_bias(self):
 

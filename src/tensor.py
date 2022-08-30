@@ -72,8 +72,8 @@ class tensor:
     #transposes a tensor
     def transpose(t1):
 
-        c = t1.get_rows()
         r = t1.get_columns()
+        c = t1.get_rows()
         i = 0
         temp_list = []
         while (i < (r * c)):
@@ -84,7 +84,8 @@ class tensor:
         while (i < r):
             j = 0
             while (j < c):
-                transposed_tensor.t[i  *c + j] = t1.t[i + j * r]
+                #print("i is", i, "j is", j, "c is", c, "r is", r)
+                transposed_tensor.t[(i  * c) + j] = t1.t[i + (j * r)]
                 j+=1
             i+=1
         
@@ -178,6 +179,19 @@ class tensor:
             temp_list.append(value)
             i += 1
         new_tensor = tensor(r,c, temp_list)
+        return new_tensor
+
+    #convert strings to floats for every element of tensor
+    def convert_to_float(t1):
+        r = t1.get_rows()
+        c = t1.get_columns()
+        i = 0
+        temp_list = []
+        while (i < (r * c)):
+            temp = float(t1.t[i])
+            temp_list.append(temp)
+            i += 1
+        new_tensor = tensor(r, c, temp_list)
         return new_tensor
 
     #prints out a tensor

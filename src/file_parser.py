@@ -12,7 +12,7 @@ class file_parser:
     eight =[0, 0, 0, 0, 0, 0, 0, 0, 1, 0]
     nine = [0, 0, 0, 0, 0, 0, 0, 0, 0, 1] 
 
-    def parse(file_path, column):
+    def parse_column(self, file_path, column):
 
         file = open(file_path)
         column_collector = []
@@ -21,7 +21,7 @@ class file_parser:
         for _ in file:
 
             line = file.readline()
-            word = line.split()
+            word = line.split(",")
             for x in word:
 
                 if (column_pointer == column):
@@ -33,7 +33,7 @@ class file_parser:
         file.close()
         return column_collector
 
-    def parse(file_path, first_column, last_column):   
+    def parse_first_last(self, file_path, first_column, last_column):   
 
         file = open(file_path)
         column_collector = []
@@ -42,7 +42,7 @@ class file_parser:
         for _ in file:
 
             line = file.readline()
-            word = line.split()
+            word = line.split(",")
             for x in word:
 
                 if (column_pointer < first_column):
@@ -55,7 +55,7 @@ class file_parser:
         file.close()
         return column_collector
 
-    def parse(file_path):   
+    def parse(self, file_path):   
 
         file = open(file_path)
         column_collector = []
@@ -73,7 +73,7 @@ class file_parser:
     
     #parses the mnist data using one-hot encoding
     #passes the file path and calls parse
-    def one_hot_mnist(file_path):
+    def one_hot_mnist_path(self, file_path):
 
         one_hot_collector = []
         p = file_parser
@@ -81,54 +81,54 @@ class file_parser:
         pre_encoding = p.parse(file_path, column_number)
         for x in pre_encoding:
             if (x == 0):
-                one_hot_collector.append(0)
+                one_hot_collector.append(file_parser.zero)
             elif (x == 1):
-                one_hot_collector.append(1)
+                one_hot_collector.append(file_parser.one)
             elif (x == 2):
-                one_hot_collector.append(2)
+                one_hot_collector.append(file_parser.two)
             elif (x == 3):
-                one_hot_collector.append(3)
+                one_hot_collector.append(file_parser.three)
             elif (x == 4):
-                one_hot_collector.append(4)
+                one_hot_collector.append(file_parser.four)
             elif (x == 5):
-                one_hot_collector.append(5)
+                one_hot_collector.append(file_parser.five)
             elif (x == 6):
-                one_hot_collector.append(6)
+                one_hot_collector.append(file_parser.six)
             elif (x == 7):
-                one_hot_collector.append(7)
+                one_hot_collector.append(file_parser.seven)
             elif (x == 8):
-                one_hot_collector.append(8)
+                one_hot_collector.append(file_parser.eight)
             elif (x == 9):
-                one_hot_collector.append(0)
+                one_hot_collector.append(file_parser.nine)
 
         return one_hot_collector
 
     #passes a list in and performs one-hot encoding on the list
-    def one_hot_mnist(column_collector):
+    def one_hot_mnist(self, column_collector):
 
         one_hot_collector = []
 
         for x in column_collector:
             if (x == 0):
-                one_hot_collector.append(0)
+                one_hot_collector.append(file_parser.zero)
             elif (x == 1):
-                one_hot_collector.append(1)
+                one_hot_collector.append(file_parser.one)
             elif (x == 2):
-                one_hot_collector.append(2)
+                one_hot_collector.append(file_parser.two)
             elif (x == 3):
-                one_hot_collector.append(3)
+                one_hot_collector.append(file_parser.three)
             elif (x == 4):
-                one_hot_collector.append(4)
+                one_hot_collector.append(file_parser.four)
             elif (x == 5):
-                one_hot_collector.append(5)
+                one_hot_collector.append(file_parser.five)
             elif (x == 6):
-                one_hot_collector.append(6)
+                one_hot_collector.append(file_parser.six)
             elif (x == 7):
-                one_hot_collector.append(7)
+                one_hot_collector.append(file_parser.seven)
             elif (x == 8):
-                one_hot_collector.append(8)
+                one_hot_collector.append(file_parser.eight)
             elif (x == 9):
-                one_hot_collector.append(0)
+                one_hot_collector.append(file_parser.nine)
                 
         return one_hot_collector
 
