@@ -12,61 +12,59 @@ class file_parser:
     eight =[0, 0, 0, 0, 0, 0, 0, 0, 1, 0]
     nine = [0, 0, 0, 0, 0, 0, 0, 0, 0, 1] 
 
+    #will parse the values for a single column of data
     def parse_column(self, file_path, column):
 
         file = open(file_path)
         column_collector = []
-        column_pointer = 0
-        
-        for _ in file:
+        next(file)
 
-            line = file.readline()
+        for line in file:
+            
             word = line.split(",")
-            for x in word:
-
-                if (column_pointer == column):
-                    column_collector.append(x)
+            i = 0
+            while (i < len(word)):
+                if (i == column):
+                    float_i = float(word[i])
+                    column_collector.append(float_i)
                     break
-                else:
-                    column_pointer += 1
 
         file.close()
         return column_collector
 
-    def parse_first_last(self, file_path, first_column, last_column):   
+    #will parse values between a start and end column of data
+    def parse_range(self, file_path, first_column, last_column):   
 
         file = open(file_path)
         column_collector = []
-        column_pointer = 0
-        
-        for _ in file:
+        next(file)
 
-            line = file.readline()
+        for line in file:
+
             word = line.split(",")
-            for x in word:
-
-                if (column_pointer < first_column):
-                    column_pointer += 1
-                elif (column_pointer > last_column):
-                    break
-                else:
-                    column_collector.append(x)
+            i = 0
+            while(i < len(word) and i <= last_column):
+                if (i >= first_column and i <= last_column):
+                    float_i = float(word[i])
+                    column_collector.append(float_i)
+                i += 1
 
         file.close()
         return column_collector
 
+    #will parse all data
     def parse(self, file_path):   
 
         file = open(file_path)
         column_collector = []
+        next(file)
         
-        for _ in file:
+        for line in file:
 
-            line = file.readline()
-            word = line.split()
+            word = line.split(",")
             for x in word:
-
-                column_collector.append(x)
+                float_x = float(x)
+                column_collector.append(float_x)
 
         file.close()
         return column_collector

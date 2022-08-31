@@ -20,17 +20,20 @@ class mainclass:
         
         p = file_parser()
 
-        #mnist_test.csv has 785 columns, numbers were not chosen arbitrarily
+        #mnist_test.csv has 785 columns, one of which is the "answer", numbers were not chosen arbitrarily
         first_column = 1
         last_column = 785
+
         test_column = 0
         activation_layer_input_dimension = 784
         activation_layer_output_dimension = 512
         output_layer_input_dimension = 512
         output_layer_output_dimension = 10
 
-        mnist_input = p.parse_first_last(file_path, first_column, last_column)
+        mnist_input = p.parse_range(file_path, first_column, last_column)
         mnist_test = p.parse_column(file_path, test_column)
+        
+
         mnist_test = p.one_hot_mnist(mnist_test)
 
 
@@ -43,13 +46,15 @@ class mainclass:
         input_tensor = tensor.convert_to_float(input_tensor)
 
         input_tensor = tensor.tensor_scalar_multiplication(input_tensor, .004)
+
         test = tensor(10, 10, mnist_test)
+        # test = tensor.convert_to_float(test)
+        # tensor.print_tensor_unformatted(test)
 
         transposed_input = tensor.transpose(input_tensor)
-        tensor.print_tensor_unformatted(test)
-        # transposed_test = tensor.transpose(test)
-
-        # training_iterations = 100
-        # learning_rate = .003
-        # neural_network.run_train(training_iterations, transposed_input, transposed_test, gradient_descent(learning_rate))
+        #tensor.print_tensor_unformatted(test)
+        transposed_test = tensor.transpose(test)
+        training_iterations = 10000
+        learning_rate = .003
+        neural_network.run_train(training_iterations, transposed_input, transposed_test, gradient_descent(learning_rate))
 
