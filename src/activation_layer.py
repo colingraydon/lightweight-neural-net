@@ -29,7 +29,7 @@ class activation_layer(layer):
     #3 is chosen here because that is the number of neurons
     def set_weights(self):
 
-        self.weights = tensor.randomize_new_tensor(self.weights, -3, 3)
+        self.weights = tensor.randomize_new_tensor(self.output_dimensions, self.input_dimensions, 0, 3)
 
     def update_weights(self, learning_rate):
 
@@ -40,8 +40,9 @@ class activation_layer(layer):
         return self.weights
 
     def set_bias(self):
-
-        self.bias = tensor.randomize_new_tensor(self.bias, -3, 3)
+        
+        columns = 1
+        self.bias = tensor.randomize_new_tensor(self.output_dimensions, columns, 0, 3)
 
     def get_bias(self):
 
@@ -70,22 +71,34 @@ class activation_layer(layer):
     #Sets the next layer with this tensor
     def propagate_forward(self):
 
-        self.output_tensor = tensor.compute_dot_product(self._weights, self._input_tensor)
-        temp_tensor = tensor(self.rows, self.columns)
-        for i in temp_tensor:
-            temp_tensor.t[i] = self.activation_function(self._output_tensor.t[i])
+        print(self.weights.rows)
+        print("weights.rows is above, printed from propagate forward")
+        print(self.weights.columns)
+        print("self.weights.columns, printed from propagate forward")
+        print(self.input_tensor.rows)
+        print("input rows is above, printed from propagate forward")
+        print(self.input_tensor.columns)
+        print("input columns, printed from propagate forward")
+        self.output_tensor = tensor.compute_dot_product(self.weights, self.input_tensor)
+        temp_tensor = tensor(self.output_tensor.rows, self.output_tensor.columns)
+        l = []
+        temp_tensor.t = []
+        i = 0
+        while (i < temp_tensor.rows * temp_tensor.columns):
+            temp_tensor.t.append(self.activation_function(self.output_tensor.t[i]))
+            i += 1
         self.feed_input(temp_tensor)
         
-    def propagate_backward(self, t1, learning_rate):
-        self.calculate_dz()
-        #updating the weights with the learning rate
-        self._weights = tensor.tensor_subtraction(self._weights, tensor.tensor_scalar_multiplication(learning_rate, self.get_dw()))
+    # def propagate_backward(self, t1, learning_rate):
+    #     self.calculate_dz()
+    #     #updating the weights with the learning rate
+    #     self.weights = tensor.tensor_subtraction(self.weights, tensor.tensor_scalar_multiplication(learning_rate, self.get_dw()))
 
     def propagate_backward(self, learning_rate):
 
         self.calculate_dz()
         #updating the weights with the learning rate
-        self._weights = tensor.tensor_subtraction(self._weights, tensor.tensor_scalar_multiplication(learning_rate, self.get_dw()))
+        self.weights = tensor.tensor_subtraction(self.weights, tensor.tensor_scalar_multiplication(learning_rate, self.get_dw()))
 
     
     #Takes the dot product of the transposed weights tensor with the next layer's dz.
@@ -93,12 +106,12 @@ class activation_layer(layer):
     def calculate_dz(self):
 
         next_dz = self.next_layer.get_dz()
-        weights_transposed = self.transpose(self._weights)
+        weights_transposed = self.transpose(self.weights)
         dot_product_next_dz_and_weights_transposed = tensor.compute_dot_product(weights_transposed, next_dz)
         temp_tensor = tensor(self.rows, self.columns)
         for i in temp_tensor:
-            temp_tensor.t[i] = self.activation_function_prime(self._output_tensor.t[i])
-        self._dz = tensor.tensor_multiplication(dot_product_next_dz_and_weights_transposed, temp_tensor)
+            temp_tensor.t[i] = self.activation_function_prime(self.output_tensor.t[i])
+        self.dz = tensor.tensor_multiplication(dot_product_next_dz_and_weights_transposed, temp_tensor)
 
 
     #sets input for next layer
@@ -109,15 +122,17 @@ class activation_layer(layer):
     #sets input tensor for that layer
     def initialize_input(self, t1):
 
-        self._input_tensor = t1
+        self.input_tensor = t1
+        self.set_bias()
+        self.set_weights()
 
     def get_outtput_tensor(self):
 
-        return self._output_tensor
+        return self.output_tensor
 
     def get_dz(self):
 
-        return self._dz
+        return self.dz
     
 
 

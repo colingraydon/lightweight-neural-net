@@ -23,7 +23,7 @@ class output_layer(activation_layer):
 
         self.output_tensor = tensor.compute_dot_product(self.weights, self.input_tensor)
         for i in self.output_tensor:
-            self.output_tensor.t[i] = self.activation_function(self.output_tensor.t[i])
+            self.output_tensor.t.append(self.activation_function(self.output_tensor.t[i]))
 
 
     def propagate_backward(self, test, learning_rate):

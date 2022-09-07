@@ -37,24 +37,18 @@ class mainclass:
         mnist_test = p.one_hot_mnist(mnist_test)
 
 
-
-
         neural_network.add_layer(activation_layer(activation_layer_input_dimension, activation_layer_output_dimension, activation_functions.sigmoid, activation_functions_prime.sigmoid_prime))
         neural_network.add_layer(output_layer(output_layer_input_dimension, output_layer_output_dimension, activation_functions.sigmoid, activation_functions_prime.sigmoid_prime))
 
-        input_tensor = tensor(10, 784, mnist_input)
+        input_tensor = tensor(512, 784, mnist_input)
         input_tensor = tensor.convert_to_float(input_tensor)
-
         input_tensor = tensor.tensor_scalar_multiplication(input_tensor, .004)
-
         test = tensor(10, 10, mnist_test)
-        # test = tensor.convert_to_float(test)
-        # tensor.print_tensor_unformatted(test)
-
         transposed_input = tensor.transpose(input_tensor)
-        #tensor.print_tensor_unformatted(test)
         transposed_test = tensor.transpose(test)
+
         training_iterations = 10000
         learning_rate = .003
+
         neural_network.run_train(training_iterations, transposed_input, transposed_test, gradient_descent(learning_rate))
 

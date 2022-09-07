@@ -25,18 +25,19 @@ class tensor:
         if (t1.get_rows() != t1.get_rows() or t1.get_columns() != t2.get_columns()):
             raise Exception("These tensors have different dimensions")
 
-    #this will primarily be used for randomizing weights and bias
-    def randomize_new_tensor(t1, lower_bound, upper_bound):
+    #this will be used for randomizing weights and bias
+    def randomize_new_tensor(rows, columns, lower_bound, upper_bound):
 
-        r = t1.get_rows()
-        c = t1.get_columns()
+        r = rows
+        c = columns
         i = 0
-        temp_list = []
+        temp_tensor = tensor(r, c)
+        temp_tensor.t = []
         while (i < (r * c)):
-            temp_list.append(random.uniform(lower_bound, upper_bound))
+            temp_tensor.t.append(random.uniform(lower_bound, upper_bound))
             i += 1
-        t1.t = temp_list
-        return t1
+        i = 0
+        return temp_tensor
 
 
     #cmoputes the dot product between 2 tensors, returns a new tensor

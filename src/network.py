@@ -5,12 +5,12 @@ from tensor import tensor
 class network:
 
 
-    def __init__(self, head:layer=None, tail:layer=None):
+    def __init__(self, head=None, tail=None):
 
         self.head = head
         self.tail = tail
 
-    def add_layer(self, l):
+    def add_layer(self, l:layer):
 
         if (self.head == None):
             self.head = l
@@ -20,12 +20,12 @@ class network:
             l.set_previous_layer(self.tail)
             self.tail = l
     
-    def run_real(input, test_tensor, optimize, epoch_number):
+    def run_real(self, input, test_tensor, optimize, epoch_number):
 
         epoch_number = 1
-        network.head.initialize_input(input)
-        current = network.head
-        while (current is not network.tail):
+        self.head.initialize_input(input)
+        current = self.head
+        while (current is not self.tail):
             current.propagate_forwards()
             current = current.next_layer
         current.propagate_forwards()
@@ -33,16 +33,16 @@ class network:
             optimize.propagate_backwards(current, test_tensor, epoch_number)
             current = current.prev_layer
 
-    def run_train(training_iterations, input, test_tensor, optimize):
+    def run_train(self, training_iterations, input, test_tensor, optimize):
 
         epoch_number = 1
-        network.head.set_input(input)
-        current = network.head
-        while (current is not network.tail):
+        self.head.initialize_input(input)
+        current = self.head
+        while (current is not self.tail):
             current.propagate_forward()
             current = current.get_next()
 
-        current.propagage_forward()
+        current.propagate_forward()
 
         print("Prediction is")
         tensor.print_tensor(current.get_output_tensor())
