@@ -40,6 +40,7 @@ class mainclass:
         neural_network.add_layer(activation_layer(activation_layer_input_dimension, activation_layer_output_dimension, activation_functions.sigmoid, activation_functions_prime.sigmoid_prime))
         neural_network.add_layer(output_layer(output_layer_input_dimension, output_layer_output_dimension, activation_functions.sigmoid, activation_functions_prime.sigmoid_prime))
 
+        #should this be 512 for input???
         input_tensor = tensor(512, 784, mnist_input)
         input_tensor = tensor.convert_to_float(input_tensor)
         input_tensor = tensor.tensor_scalar_multiplication(input_tensor, .004)
@@ -47,6 +48,7 @@ class mainclass:
         transposed_input = tensor.transpose(input_tensor)
         transposed_test = tensor.transpose(test)
 
+        tensor.print_tensor(transposed_test)
         training_iterations = 10000
         learning_rate = .003
 

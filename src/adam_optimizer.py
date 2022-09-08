@@ -1,8 +1,8 @@
 from layer import layer
 from output_layer import output_layer
 from activation_layer import activation_layer
-
-class adam_optimizer:
+from optimizer import optimizer
+class adam_optimizer(optimizer):
 
     def __init__(self, learning_rate, epoch_number):
 

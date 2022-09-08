@@ -33,7 +33,7 @@ class activation_layer(layer):
 
     def update_weights(self, learning_rate):
 
-        self.weights = tensor.tensor_subtraction(self.weights, tensor.tensor_scalar_multiplication(learning_rate, self.get_dw()))
+        self.weights = tensor.tensor_subtraction(self.weights, tensor.tensor_scalar_multiplication(self.get_dw(), learning_rate))
 
     def get_weights(self):
 
@@ -71,17 +71,16 @@ class activation_layer(layer):
     #Sets the next layer with this tensor
     def propagate_forward(self):
 
-        print(self.weights.rows)
-        print("weights.rows is above, printed from propagate forward")
-        print(self.weights.columns)
-        print("self.weights.columns, printed from propagate forward")
-        print(self.input_tensor.rows)
-        print("input rows is above, printed from propagate forward")
-        print(self.input_tensor.columns)
-        print("input columns, printed from propagate forward")
+        # print(self.weights.rows)
+        # print("weights.rows is above, printed from propagate forward")
+        # print(self.weights.columns)
+        # print("self.weights.columns, printed from propagate forward")
+        # print(self.input_tensor.rows)
+        # print("input rows is above, printed from propagate forward")
+        # print(self.input_tensor.columns)
+        # print("input columns, printed from propagate forward")
         self.output_tensor = tensor.compute_dot_product(self.weights, self.input_tensor)
         temp_tensor = tensor(self.output_tensor.rows, self.output_tensor.columns)
-        l = []
         temp_tensor.t = []
         i = 0
         while (i < temp_tensor.rows * temp_tensor.columns):
@@ -94,7 +93,7 @@ class activation_layer(layer):
     #     #updating the weights with the learning rate
     #     self.weights = tensor.tensor_subtraction(self.weights, tensor.tensor_scalar_multiplication(learning_rate, self.get_dw()))
 
-    def propagate_backward(self, learning_rate):
+    def propagate_backward(self, learning_rate, test=None):
 
         self.calculate_dz()
         #updating the weights with the learning rate
@@ -106,11 +105,19 @@ class activation_layer(layer):
     def calculate_dz(self):
 
         next_dz = self.next_layer.get_dz()
-        weights_transposed = self.transpose(self.weights)
+        weights_transposed = tensor.transpose(self.weights)
+        print("---------------------------------")
+        print("weights transposed rows is", weights_transposed.rows)
+        print("weights transposed columns is", weights_transposed.columns)
+        print("next dz rows is", next_dz.rows)
+        print("next dz columns is", next_dz.columns)
         dot_product_next_dz_and_weights_transposed = tensor.compute_dot_product(weights_transposed, next_dz)
         temp_tensor = tensor(self.rows, self.columns)
-        for i in temp_tensor:
-            temp_tensor.t[i] = self.activation_function_prime(self.output_tensor.t[i])
+        temp_tensor.t = []
+        i = 0
+        while (i < (temp_tensor.rows * temp_tensor.columns)):
+            temp_tensor.t.append(self.activation_function_prime(self.output_tensor.t[i]))
+            i += 1
         self.dz = tensor.tensor_multiplication(dot_product_next_dz_and_weights_transposed, temp_tensor)
 
 

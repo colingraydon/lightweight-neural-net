@@ -26,12 +26,15 @@ class network:
         self.head.initialize_input(input)
         current = self.head
         while (current is not self.tail):
-            current.propagate_forwards()
+            current.propagate_forward()
             current = current.next_layer
-        current.propagate_forwards()
+        current.propagate_forward()
         while (current is not None):
-            optimize.propagate_backwards(current, test_tensor, epoch_number)
-            current = current.prev_layer
+            print("got to line 33")
+            optimize.propagate_back(current, test_tensor, epoch_number)
+            print("current is", current)
+            print("current.previous layer is", current.previous_layer)
+            current = current.previous_layer
 
     def run_train(self, training_iterations, input, test_tensor, optimize):
 
@@ -40,25 +43,25 @@ class network:
         current = self.head
         while (current is not self.tail):
             current.propagate_forward()
-            current = current.get_next()
+            current = current.get_next_layer()
 
         current.propagate_forward()
 
-        print("Prediction is")
-        tensor.print_tensor(current.get_output_tensor())
-        print("Actual is")
-        tensor.print_tensor(test_tensor)
+        # print("Prediction is")
+        # tensor.print_tensor(current.output_tensor)
+        # print("Actual is")
+        # tensor.print_tensor(test_tensor)
 
         i = 0
         while (i < training_iterations):
 
-            network.run_real(input, test_tensor, optimize, epoch_number)
+            self.run_real(input, test_tensor, optimize, epoch_number)
             print("Iteration is", epoch_number)
             epoch_number += 1
 
-        network.head.set_input(input)
-        current = network.head
-        while (current is not network.tail):
+        self.head.set_input(input)
+        current = self.head
+        while (current is not self.tail):
             current.propagate_forward()
             current = current.get_next()
         

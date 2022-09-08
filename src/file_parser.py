@@ -78,26 +78,34 @@ class file_parser:
         column_number = 0
         pre_encoding = p.parse(file_path, column_number)
         for x in pre_encoding:
-            if (x == 0):
-                one_hot_collector.append(file_parser.zero)
-            elif (x == 1):
-                one_hot_collector.append(file_parser.one)
-            elif (x == 2):
-                one_hot_collector.append(file_parser.two)
-            elif (x == 3):
-                one_hot_collector.append(file_parser.three)
-            elif (x == 4):
-                one_hot_collector.append(file_parser.four)
-            elif (x == 5):
-                one_hot_collector.append(file_parser.five)
-            elif (x == 6):
-                one_hot_collector.append(file_parser.six)
-            elif (x == 7):
-                one_hot_collector.append(file_parser.seven)
-            elif (x == 8):
-                one_hot_collector.append(file_parser.eight)
-            elif (x == 9):
-                one_hot_collector.append(file_parser.nine)
+            #changed from here
+            i = 0
+            while (i < 10):
+                if (i == x):
+                    one_hot_collector.append(x)
+                else:
+                    one_hot_collector.append(0)
+                i += 1
+            # if (x == 0):
+            #     one_hot_collector.append(file_parser.zero)
+            # elif (x == 1):
+            #     one_hot_collector.append(file_parser.one)
+            # elif (x == 2):
+            #     one_hot_collector.append(file_parser.two)
+            # elif (x == 3):
+            #     one_hot_collector.append(file_parser.three)
+            # elif (x == 4):
+            #     one_hot_collector.append(file_parser.four)
+            # elif (x == 5):
+            #     one_hot_collector.append(file_parser.five)
+            # elif (x == 6):
+            #     one_hot_collector.append(file_parser.six)
+            # elif (x == 7):
+            #     one_hot_collector.append(file_parser.seven)
+            # elif (x == 8):
+            #     one_hot_collector.append(file_parser.eight)
+            # elif (x == 9):
+            #     one_hot_collector.append(file_parser.nine)
 
         return one_hot_collector
 
@@ -107,26 +115,33 @@ class file_parser:
         one_hot_collector = []
 
         for x in column_collector:
-            if (x == 0):
-                one_hot_collector.append(file_parser.zero)
-            elif (x == 1):
-                one_hot_collector.append(file_parser.one)
-            elif (x == 2):
-                one_hot_collector.append(file_parser.two)
-            elif (x == 3):
-                one_hot_collector.append(file_parser.three)
-            elif (x == 4):
-                one_hot_collector.append(file_parser.four)
-            elif (x == 5):
-                one_hot_collector.append(file_parser.five)
-            elif (x == 6):
-                one_hot_collector.append(file_parser.six)
-            elif (x == 7):
-                one_hot_collector.append(file_parser.seven)
-            elif (x == 8):
-                one_hot_collector.append(file_parser.eight)
-            elif (x == 9):
-                one_hot_collector.append(file_parser.nine)
+            i = 0
+            while (i < 10):
+                if (i == x):
+                    one_hot_collector.append(x)
+                else:
+                    one_hot_collector.append(0)
+                i += 1
+            # if (x == 0):
+            #     one_hot_collector.append(file_parser.zero)
+            # elif (x == 1):
+            #     one_hot_collector.append(file_parser.one)
+            # elif (x == 2):
+            #     one_hot_collector.append(file_parser.two)
+            # elif (x == 3):
+            #     one_hot_collector.append(file_parser.three)
+            # elif (x == 4):
+            #     one_hot_collector.append(file_parser.four)
+            # elif (x == 5):
+            #     one_hot_collector.append(file_parser.five)
+            # elif (x == 6):
+            #     one_hot_collector.append(file_parser.six)
+            # elif (x == 7):
+            #     one_hot_collector.append(file_parser.seven)
+            # elif (x == 8):
+            #     one_hot_collector.append(file_parser.eight)
+            # elif (x == 9):
+            #     one_hot_collector.append(file_parser.nine)
                 
         return one_hot_collector
 

@@ -22,12 +22,24 @@ class output_layer(activation_layer):
     def propagate_forward(self):
 
         self.output_tensor = tensor.compute_dot_product(self.weights, self.input_tensor)
-        for i in self.output_tensor:
-            self.output_tensor.t.append(self.activation_function(self.output_tensor.t[i]))
+        temp_tensor = tensor(self.output_tensor.rows, self.output_tensor.columns)
+        temp_tensor.t = []
+        i = 0
+        while (i < temp_tensor.rows * temp_tensor.columns):
+            temp_tensor.t.append(self.activation_function(self.output_tensor.t[i]))
+            i += 1
 
 
     def propagate_backward(self, test, learning_rate):
 
+        print(test.rows)
+        print("test.rows is above, printed from propagate backward")
+        print(test.columns)
+        print("test.weights.columns, printed from propagate backward")
+        print(self.output_tensor.rows)
+        print("output tensor rows is above, printed from propagate backward")
+        print(self.output_tensor.columns)
+        print("output tensor columns, printed from propagate backward")
         self.dz = tensor.tensor_subtraction(self.output_tensor, test)
         self.update_weights(learning_rate)
 
